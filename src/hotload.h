@@ -1,5 +1,5 @@
-#ifndef SKHD_HOTLOAD_H
-#define SKHD_HOTLOAD_H
+#ifndef HOTLOAD_H
+#define HOTLOAD_H
 
 #include <stdbool.h>
 #include <Carbon/Carbon.h>
