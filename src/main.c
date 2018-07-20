@@ -18,7 +18,7 @@ int main(int argc, char **argv)
     }
 
     struct hotloader hotloader = {}
-    hotloader_add_catalog(argv[1], NULL);
+    hotloader_add_catalog(&hotloader, argv[1], NULL);
     hotloader_begin(&hotloader, my_callback);
 
     CFRunLoopRun();
