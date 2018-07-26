@@ -13,6 +13,35 @@
                                          const FSEventStreamEventFlags *flags,\
                                          const FSEventStreamEventId *ids)
 
+enum watch_kind
+{
+    WATCH_KIND_INVALID,
+    WATCH_KIND_CATALOG,
+    WATCH_KIND_FILE
+};
+
+struct watched_catalog
+{
+    char *directory;
+    char *extension;
+};
+
+struct watched_file
+{
+    char *absolutepath;
+    char *directory;
+    char *filename;
+};
+
+struct watched_entry
+{
+    enum watch_kind kind;
+    union {
+        struct watched_file file_info;
+        struct watched_catalog catalog_info;
+    };
+};
+
 internal inline bool
 same_string(const char *a, const char *b)
 {
