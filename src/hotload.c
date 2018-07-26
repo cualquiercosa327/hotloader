@@ -158,6 +158,22 @@ internal FSEVENT_CALLBACK(hotloader_handler)
     }
 }
 
+internal inline void
+hotloader_add_watched_entry(struct hotloader *hotloader, struct watched_entry entry)
+{
+    if (!hotloader->watch_list) {
+        hotloader->watch_capacity = 32;
+        hotloader->watch_list = malloc(hotloader->watch_capacity * sizeof(struct watched_entry));
+    }
+
+    if (hotloader->watch_count >= hotloader->watch_capacity) {
+        hotloader->watch_capactiy = (unsigned) ceil(hotloader->watch_capacity * 1.5f);
+        hotloader->watch_list = realloc(hotloader->watch_list, hotloader->watch_capacity * sizeof(struct watched_entry));
+    }
+
+    hotloader->watch_list[hotloader->watch_count++] = entry;
+}
+
 bool hotloader_add_catalog(struct hotloader *hotloader, const char *directory, const char *extension)
 {
     if (hotloader->enabled) return false;
@@ -168,7 +184,7 @@ bool hotloader_add_catalog(struct hotloader *hotloader, const char *directory, c
     enum watch_kind kind = resolve_watch_kind(real_path);
     if (kind != WATCH_KIND_CATALOG) return false;
 
-    struct watched_entry entry = {
+    hotloader_add_watched_entry(hotloader, {
         .kind = WATCH_KIND_CATALOG,
         .catalog_info = {
             .directory = real_path,
@@ -176,8 +192,7 @@ bool hotloader_add_catalog(struct hotloader *hotloader, const char *directory, c
                        ? copy_string(extension)
                        : NULL
         }
-    };
-    hotloader->watch_list[hotloader->watch_count++] = entry;
+    });
 
     return true;
 }
@@ -192,15 +207,14 @@ bool hotloader_add_file(struct hotloader *hotloader, const char *file)
     enum watch_kind kind = resolve_watch_kind(real_path);
     if (kind != WATCH_KIND_FILE) return false;
 
-    struct watched_entry entry = {
+    hotloader_add_watched_entry(hotloader, {
         .kind = WATCH_KIND_FILE,
         .file_info = {
             .absolutepath = real_path,
             .directory = file_directory(real_path),
             .filename = file_name(real_path)
         }
-    };
-    hotloader->watch_list[hotloader->watch_count++] = entry;
+    });
 
     return true;
 }

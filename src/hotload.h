@@ -44,7 +44,8 @@ struct hotloader
     bool enabled;
 
     hotloader_callback *callback;
-    struct watched_entry watch_list[32];
+    struct watched_entry *watch_list;
+    unsigned watch_capacity;
     unsigned watch_count;
 };
 
