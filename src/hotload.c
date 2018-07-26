@@ -53,7 +53,7 @@ internal char *
 copy_string(const char *s)
 {
     unsigned length = strlen(s);
-    char *result = malloc(length + 1);
+    char *result = (char *) malloc(length + 1);
     memcpy(result, s, length);
     result[length] = '\0';
     return result;
@@ -94,7 +94,7 @@ resolve_symlink(const char *file)
     }
 
     ssize_t size = buffer.st_size + 1;
-    char *result = malloc(size);
+    char *result = (char *) malloc(size);
     ssize_t read = readlink(file, result, size);
 
     if (read != -1) {
@@ -192,12 +192,12 @@ hotloader_add_watched_entry(struct hotloader *hotloader, struct watched_entry en
 {
     if (!hotloader->watch_list) {
         hotloader->watch_capacity = 32;
-        hotloader->watch_list = malloc(hotloader->watch_capacity * sizeof(struct watched_entry));
+        hotloader->watch_list = (struct watched_entry *) malloc(hotloader->watch_capacity * sizeof(struct watched_entry));
     }
 
     if (hotloader->watch_count >= hotloader->watch_capacity) {
         hotloader->watch_capacity = (unsigned) ceil(hotloader->watch_capacity * 1.5f);
-        hotloader->watch_list = realloc(hotloader->watch_list, hotloader->watch_capacity * sizeof(struct watched_entry));
+        hotloader->watch_list = (struct watched_entry *) realloc(hotloader->watch_list, hotloader->watch_capacity * sizeof(struct watched_entry));
     }
 
     hotloader->watch_list[hotloader->watch_count++] = entry;
