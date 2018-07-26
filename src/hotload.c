@@ -290,5 +290,6 @@ void hotloader_end(struct hotloader *hotloader)
     }
 
     CFRelease(hotloader->path);
+    free(hotloader->watch_list)
     memset(hotloader, 0, sizeof(struct hotloader));
 }
