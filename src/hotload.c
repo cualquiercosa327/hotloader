@@ -184,7 +184,7 @@ bool hotloader_add_catalog(struct hotloader *hotloader, const char *directory, c
     enum watch_kind kind = resolve_watch_kind(real_path);
     if (kind != WATCH_KIND_CATALOG) return false;
 
-    hotloader_add_watched_entry(hotloader, {
+    hotloader_add_watched_entry(hotloader, (struct watched_entry) {
         .kind = WATCH_KIND_CATALOG,
         .catalog_info = {
             .directory = real_path,
@@ -207,7 +207,7 @@ bool hotloader_add_file(struct hotloader *hotloader, const char *file)
     enum watch_kind kind = resolve_watch_kind(real_path);
     if (kind != WATCH_KIND_FILE) return false;
 
-    hotloader_add_watched_entry(hotloader, {
+    hotloader_add_watched_entry(hotloader, (struct watched_entry) {
         .kind = WATCH_KIND_FILE,
         .file_info = {
             .absolutepath = real_path,
