@@ -196,7 +196,7 @@ hotloader_add_watched_entry(struct hotloader *hotloader, struct watched_entry en
     }
 
     if (hotloader->watch_count >= hotloader->watch_capacity) {
-        hotloader->watch_capactiy = (unsigned) ceil(hotloader->watch_capacity * 1.5f);
+        hotloader->watch_capacity = (unsigned) ceil(hotloader->watch_capacity * 1.5f);
         hotloader->watch_list = realloc(hotloader->watch_list, hotloader->watch_capacity * sizeof(struct watched_entry));
     }
 
