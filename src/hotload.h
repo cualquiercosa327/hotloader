@@ -1,7 +1,10 @@
 #ifndef HOTLOAD_H
 #define HOTLOAD_H
 
+#ifndef __cplusplus
 #include <stdbool.h>
+#endif
+
 #include <Carbon/Carbon.h>
 
 #define HOTLOADER_CALLBACK(name) void name(char *absolutepath, char *directory, char *filename)
